@@ -1,8 +1,9 @@
 #!/bin/bash
-podman run -d \
+sudo podman run \
   --name jellyfin \
   --network homecloud \
   -p 8096:8096 \
-  -v /srv/jellyfin/config:/config \
-  -v /srv/minio/data:/media \
-  docker.io/jellyfin/jellyfin:latest
+  --device /dev/dri:/dev/dri \
+  -v /etc/machine-id:/etc/machine-id:ro \
+  -v /srv/jellyfin:/media \
+  -d docker.io/jellyfin/jellyfin:latest

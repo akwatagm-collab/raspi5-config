@@ -1,0 +1,25 @@
+# Secrets
+secrets/
+*.env
+.env
+.env.*
+
+# Logs
+*.log
+*.pid
+*.sock
+
+# Podman artifacts
+podman-volume/
+podman-network/
+*.tar
+*.img
+
+# System junk
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
