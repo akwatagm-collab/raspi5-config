@@ -7,10 +7,14 @@ Wants=network-online.target
 ContainerName=jellyfin
 Image=docker.io/jellyfin/jellyfin:latest
 PublishPort=8096:8096
+#Network=host
+
 # ▼ 設定やログインIDを永続化する場所（先ほど確認した/srv/jellyfin）
 Volume=/srv/jellyfin:/config
 # ▼ SDカードの音楽を読み込ませる場所（ro = 読み取り専用で安全）
 Volume=/mnt/sd/Music:/media/music:ro
+# MinIOの設定 /videos 
+Volume=/srv/jellyfin/media:/videos
 # タイムゾーンを日本に設定
 Environment=TZ=Asia/Tokyo
 

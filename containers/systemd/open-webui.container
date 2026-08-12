@@ -1,0 +1,22 @@
+[Unit]
+Description=Open WebUI (OpenRouter Backend)
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+ContainerName=open-webui
+Image=ghcr.io/open-webui/open-webui:main
+# 外部(Pi 5)の3000番ポートを、コンテナ内部の8080番に繋ぐ
+PublishPort=3000:8080
+
+# データの永続化
+Volume=/srv/open-webui:/app/backend/data
+
+# 環境変数（OpenRouterに接続する設定）
+Environment=TZ=Asia/Tokyo
+Environment=OPENAI_API_BASE_URL=https://openrouter.ai/api/v1
+# 秘密のAPIキーはここから読み込む（Gitには漏れません！）
+EnvironmentFile=/srv/open-webui/.env
+
+[Install]
+WantedBy=multi-user.target
