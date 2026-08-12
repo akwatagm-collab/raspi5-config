@@ -1,0 +1,18 @@
+[Unit]
+Description=Jellyfin Media Server
+After=network-online.target
+Wants=network-online.target
+
+[Container]
+ContainerName=jellyfin
+Image=docker.io/jellyfin/jellyfin:latest
+PublishPort=8096:8096
+# ▼ 設定やログインIDを永続化する場所（先ほど確認した/srv/jellyfin）
+Volume=/srv/jellyfin:/config
+# ▼ SDカードの音楽を読み込ませる場所（ro = 読み取り専用で安全）
+Volume=/mnt/sd/Music:/media/music:ro
+# タイムゾーンを日本に設定
+Environment=TZ=Asia/Tokyo
+
+[Install]
+WantedBy=multi-user.target
