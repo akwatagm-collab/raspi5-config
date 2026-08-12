@@ -1,0 +1,13 @@
+[Container]
+ContainerName=netdata-pi5
+Image=docker.io/netdata/netdata:latest
+Network=host
+Privileged=true
+Entrypoint=/usr/sbin/netdata
+Mount=type=bind,source=/home/akwata/homecloud/netdata-pi5/netdata.conf,target=/etc/netdata/netdata.conf,options=Z
+Mount=type=bind,source=/home/akwata/homecloud/netdata-pi5/stream.conf,target=/etc/netdata/stream.conf,options=Z
+Volume=netdata-pi5-db:/var/lib/netdata:Z
+Exec=-D
+
+[Install]
+WantedBy=multi-user.target

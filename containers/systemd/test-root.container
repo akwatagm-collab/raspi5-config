@@ -1,0 +1,9 @@
+[Unit]
+Description=Quadlet Test (rootful)
+
+[Container]
+Image=busybox
+Exec=sleep 1000
+
+[Install]
+WantedBy=multi-user.target
