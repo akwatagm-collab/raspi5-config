@@ -1,0 +1,13 @@
+[Unit]
+Description=Immich PostgreSQL 17
+
+[Container]
+Image=ghcr.io/immich-app/postgres:17-vectorchord0.5.3
+Network=immich
+Volume=immich-postgres:/var/lib/postgresql/data
+Environment=POSTGRES_USER=immich
+Environment=POSTGRES_PASSWORD=immich
+Environment=POSTGRES_DB=immich
+
+[Install]
+WantedBy=multi-user.target

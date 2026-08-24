@@ -1,0 +1,10 @@
+[Unit]
+Description=Immich Redis
+
+[Container]
+Image=docker.io/library/redis:7-alpine
+Network=immich
+Volume=immich-redis:/data
+
+[Install]
+WantedBy=multi-user.target
