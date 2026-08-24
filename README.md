@@ -1,72 +1,44 @@
+[200~### raspi5-config / homecloud
 
-raspi5-config / homecloud
-Raspberry Pi5 上で動作する家庭クラウド環境。
-Podman rootless をベースに、写真管理・動画配信・オブジェクトストレージ・リバースプロキシを統合した構成。
+Raspberry Pi 5（Debian Trixie）上で動作する、Podman 6 (Rootful) + Quadletベースの軽量・高再現性プライベートクラウド。 
 
-📦 構成一覧
-サービス	役割	ディレクトリ
-Immich	写真・動画管理	immich/
-PostgreSQL	Immich DB	immich/postgres-run.sh
-Redis	Immich キャッシュ	immich/redis-run.sh
-MinIO	オブジェクトストレージ	minio/
-Jellyfin	動画配信	jellyfin/
-Caddy	リバースプロキシ / HTTPS	caddy/
-Portal	homecloud の操作 UI	portal/
-Secure Browser	Pi5 用の安全ブラウザ	secure-browser/
-secrets	パスワード・環境変数	secrets/（Git管理外）
+### 💡 アーキテクチャの特徴
 
+* **完全Rootful運用**: ネットワーク特権や外部ストレージ権限を確保。
+* **リソース最適化**: 4GBメモリ上限に対応し、ImmichのML処理を外部化。JellyfinはFLAC専用機化。
+* **オブジェクトストレージ**: MinIOを核としたS3互換ストレージ基盤。
+* **AI連携**: Open WebUIを常駐。
 
-🚀 起動手順（Podman rootless）
-1. Immich 前提サービス起動
-コード
-cd immich
-./postgres-run.sh
-./redis-run.sh
-2. Immich server 起動
-コード
-./podman-run.sh
-3. MinIO 起動
-コード
-cd ../minio
-./podman-run.sh
-4. Jellyfin 起動
-コード
-cd ../jellyfin
-./podman-run.sh
-5. Caddy 起動
-コード
-cd ../caddy
-./podman-run.sh
-🔐 secrets ディレクトリについて
-secrets/ は GitHub に公開しない。
-以下のファイルが含まれる：
+### 📦 サービス構成
 
-Immich の DB パスワード
+サービス 
 
-MinIO の root user / password
+役割 
 
-Jellyfin の初期設定
+****Caddy****
+HTTPS/リバースプロキシ
+****Open WebUI****
+AIフロントエンド
+****Immich + DB****
+写真管理 (S3連携)
+****MinIO****
+ストレージ基盤
+****Jellyfin****
+FLAC音楽サーバー
+****Netdata****
+リソース監視
 
-Portal の API キー
+### 🛠️ 運用・自動起動（Quadlet）
 
-🛠 ディレクトリ構成
-コード
-homecloud/
-├── caddy/
-│   ├── Caddyfile
-│   └── sites/*.conf
-├── immich/
-│   ├── podman-run.sh
-│   ├── postgres-run.sh
-│   ├── redis-run.sh
-│   └── ml-run.sh
-├── jellyfin/
-│   └── podman-run.sh
-├── minio/
-│   └── podman-run.sh
-├── portal/
-│   └── podman-run.sh
-├── secure-browser/
-│   └── podman-run.sh
-├── secrets/   ← Git管理外
-└── setup.sh
+quadlets/ ディレクトリ配下の .container, .network, .volume ファイル（Quadlet）を使用し、systemd とネイティブ連携。OS再起動時の自動起動と環境再現性を担保。 
+
+### 🚀 環境復元手順
+
+以下のスクリプトで、リポジトリのQuadlet設定を実環境へデプロイします。 
+
+bash
+
+cd /home/akwata/homecloud
+./setup-rootful-homecloud.sh
+
+コードは注意してご使用ください。~
