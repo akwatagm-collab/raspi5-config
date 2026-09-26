@@ -20,3 +20,6 @@ Environment=TZ=Asia/Tokyo
 
 [Install]
 WantedBy=multi-user.target
+
+[Service]
+TimeoutStartSec=900

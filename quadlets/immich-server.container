@@ -5,6 +5,7 @@ Requires=immich-postgres.service immich-redis.service
 RequiresMountsFor=/srv/immich/data
 
 [Container]
+EnvironmentFile=/home/akwata/homecloud/secrets/immich.env
 Image=ghcr.io/immich-app/immich-server:release
 Network=immich
 PublishPort=2283:2283
@@ -13,7 +14,6 @@ PublishPort=2283:2283
 Volume=/srv/immich/data:/usr/src/app/upload
 
 # 正しいコンテナ名（systemd-つき）に修正
-Environment=DB_URL=postgresql://immich:immich@systemd-immich-postgres:5432/immich?sslmode=disable
 Environment=REDIS_HOSTNAME=systemd-immich-redis
 Environment=REDIS_PORT=6379
 
